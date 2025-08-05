@@ -1,0 +1,1 @@
+This project aims to block apps for productive work
