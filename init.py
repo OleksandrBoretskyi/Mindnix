@@ -20,12 +20,13 @@ def get_window():
         return None
 
 def block_window(window_name):
-    try:
-        if window_name in blacklist:
-            subprocess.run(["pkill", "-i", "-f", window_name])
-            print(f"Blocked: {window_name}")
-    except subprocess.CalledProcessError:  
-        print(f"Failed to block {window_name}")
+    for app in blacklist:
+        if app.lower() in window_name.lower():
+            try:
+                subprocess.run(["pkill", "-i", "-f", app])
+                print(f"[BLOCKED] {app}")
+            except subprocess.CalledProcessError:
+                print(f"[ERROR] Failed to block {app}")
 
 while True:
     active_window = get_window()
