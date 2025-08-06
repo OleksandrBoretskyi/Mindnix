@@ -1,3 +1,7 @@
 blacklist:
   - Discord
+
+blacklist_sites:
+  - instagram.com
+
 interval: 2
