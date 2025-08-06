@@ -3,7 +3,7 @@ import time
 import yaml
 import os
 
-CONFIG_FILE = 'config.yml'
+CONFIG_FILE = 'config.yaml'
 with open(CONFIG_FILE, 'r') as file:
     config = yaml.safe_load(file)
 
