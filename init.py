@@ -2,6 +2,7 @@ import subprocess
 import time
 import yaml
 import os
+from datetime import datetime, timedelta
 
 CONFIG_FILE = 'config.yaml'
 with open(CONFIG_FILE, 'r') as file:
@@ -11,6 +12,9 @@ with open(CONFIG_FILE, 'r') as file:
 blacklist = config.get('blacklist', [])
 interval = config.get('interval', 2)
 focus_minutes = config.get('focus_minutes', 25)
+focus_mode = True
+focus_start_time = None
+focus_end_time = None
 
 def get_window():
     try:
