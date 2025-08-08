@@ -10,6 +10,7 @@ with open(CONFIG_FILE, 'r') as file:
 
 blacklist = config.get('blacklist', [])
 interval = config.get('interval', 2)
+focus_minutes = config.get('focus_minutes', 25)
 
 def get_window():
     try:
