@@ -68,3 +68,17 @@ while True:
         print("No active window found.")
     
     time.sleep(interval)
+
+start_focus()
+
+while True:
+    active_window = get_window()
+    if active_window:
+        print(f"Active window: {active_window}")
+        if is_focus_active(): 
+            block_window(active_window)
+        else:
+            pass
+    else:
+        print("No active window found.")
+    time.sleep(interval)
