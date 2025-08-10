@@ -32,6 +32,16 @@ def stop_focus():
     focus_end_time = None
     print("[FOCUS] Stopped.")
 
+def is_focus_active() -> bool:
+    global focus_mode, focus_end_time
+    if not focus_mode:
+        return False
+    if focus_end_time and datetime.now() >= focus_end_time:
+        stop_focus()
+        print("[FOCUS] Session ended (time up).")
+        return False
+    return True
+
 def get_window():
     try:
         window_id = subprocess.check_output(['xdotool', 'getactivewindow']).strip()
