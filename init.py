@@ -16,6 +16,22 @@ focus_mode = True
 focus_start_time = None
 focus_end_time = None
 
+def start_focus(minutes: int = None):
+    global focus_mode, focus_start_time, focus_end_time
+    if minutes is None:
+        minutes = focus_minutes
+    focus_mode = True
+    focus_start_time = datetime.now()
+    focus_end_time = focus_start_time + timedelta(minutes=minutes)
+    print(f"[FOCUS] Started for {minutes} min (until {focus_end_time:%H:%M:%S}).")
+
+def stop_focus():
+    global focus_mode, focus_start_time, focus_end_time
+    focus_mode = False
+    focus_start_time = None
+    focus_end_time = None
+    print("[FOCUS] Stopped.")
+
 def get_window():
     try:
         window_id = subprocess.check_output(['xdotool', 'getactivewindow']).strip()
