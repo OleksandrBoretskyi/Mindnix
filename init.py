@@ -2,6 +2,7 @@ import subprocess
 import time
 import yaml
 from datetime import datetime, timedelta
+import argparse
 
 CONFIG_FILE = 'config.yaml'
 with open(CONFIG_FILE, 'r') as file:
@@ -18,6 +19,7 @@ def start_focus(minutes: int = None):
     global focus_mode, focus_start_time, focus_end_time
     if minutes is None:
         minutes = focus_minutes
+    minutes = int(abs(minutes))
     focus_mode = True
     focus_start_time = datetime.now()
     focus_end_time = focus_start_time + timedelta(minutes=minutes)
@@ -54,6 +56,11 @@ def block_window(window_name):
         if app.lower() in window_name.lower():
             subprocess.run(["pkill", "-i", "-f", app], check=False)
             print(f"[BLOCKED] {app}")
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--focus', type=int, nargs="?", const=focus_minutes, help='Start focus mode for specified minutes.')
+args = parser.parse_args()
+
 while True:
     active_window = get_window()
     if active_window:
