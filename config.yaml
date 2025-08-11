@@ -4,6 +4,6 @@ blacklist:
 blacklist_sites:
   - instagram.com
 
-focus_minutes: 25
+focus_minutes:
 
 interval: 2

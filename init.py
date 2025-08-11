@@ -11,8 +11,8 @@ with open(CONFIG_FILE, 'r') as file:
 
 blacklist = config.get('blacklist', [])
 interval = config.get('interval', 2)
-focus_minutes = config.get('focus_minutes', 25)
-focus_mode = True
+focus_minutes = config.get('focus_minutes')
+focus_mode = False
 focus_start_time = None
 focus_end_time = None
 
