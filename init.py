@@ -1,13 +1,11 @@
 import subprocess
 import time
 import yaml
-import os
 from datetime import datetime, timedelta
 
 CONFIG_FILE = 'config.yaml'
 with open(CONFIG_FILE, 'r') as file:
     config = yaml.safe_load(file)
-
 
 blacklist = config.get('blacklist', [])
 interval = config.get('interval', 2)
@@ -33,10 +31,11 @@ def stop_focus():
     print("[FOCUS] Stopped.")
 
 def is_focus_active() -> bool:
-    global focus_mode, focus_end_time
     if not focus_mode:
         return False
-    if focus_end_time and datetime.now() >= focus_end_time:
+    if focus_end_time is None:
+        return False
+    if datetime.now() >= focus_end_time:
         stop_focus()
         print("[FOCUS] Session ended (time up).")
         return False
@@ -53,32 +52,14 @@ def get_window():
 def block_window(window_name):
     for app in blacklist:
         if app.lower() in window_name.lower():
-            try:
-                subprocess.run(["pkill", "-i", "-f", app])
-                print(f"[BLOCKED] {app}")
-            except subprocess.CalledProcessError:
-                print(f"[ERROR] Failed to block {app}")
-
+            subprocess.run(["pkill", "-i", "-f", app], check=False)
+            print(f"[BLOCKED] {app}")
 while True:
     active_window = get_window()
     if active_window:
         print(f"Active window: {active_window}")
-        block_window(active_window)
-    else:
-        print("No active window found.")
-    
-    time.sleep(interval)
-
-start_focus()
-
-while True:
-    active_window = get_window()
-    if active_window:
-        print(f"Active window: {active_window}")
-        if is_focus_active(): 
+        if is_focus_active():
             block_window(active_window)
-        else:
-            pass
     else:
         print("No active window found.")
     time.sleep(interval)
