@@ -8,6 +8,7 @@ CONFIG_FILE = 'config.yaml'
 with open(CONFIG_FILE, 'r') as file:
     config = yaml.safe_load(file)
 
+# Get configuration values
 blacklist = config.get('blacklist', [])
 interval = config.get('interval', 2)
 focus_minutes = config.get('focus_minutes')
@@ -57,12 +58,13 @@ def block_window(window_name):
             subprocess.run(["pkill", "-i", "-f", app], check=False)
             print(f"[BLOCKED] {app}")
 
+# Parse command line arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('--focus', type=int, nargs="?", const=focus_minutes, help='Start focus mode for specified minutes.')
 args = parser.parse_args()
 if args.focus is not None:
     start_focus(args.focus)
-
+# Main loop
 while True:
     active_window = get_window()
     if active_window:
