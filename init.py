@@ -60,6 +60,8 @@ def block_window(window_name):
 parser = argparse.ArgumentParser()
 parser.add_argument('--focus', type=int, nargs="?", const=focus_minutes, help='Start focus mode for specified minutes.')
 args = parser.parse_args()
+if args.focus is not None:
+    start_focus(args.focus)
 
 while True:
     active_window = get_window()
